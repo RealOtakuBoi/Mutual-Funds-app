@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NIVESH - Investing Made Easy</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: #f8f8f8;
+        color: #333;
+      }
+
+      .app-container {
+        max-width: 360px;
+        margin: 0 auto;
+        background: linear-gradient(145deg, #6a3093, #a044ff);
+        min-height: 100vh;
+        overflow: hidden;
+        position: relative;
+        border-radius: 0;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .header {
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .greeting {
+        color: #f5f5f5;
+      }
+
+      .greeting h1 {
+        font-size: 14px;
+        font-weight: 500;
+        color: #e0c3ff;
+      }
+
+      .greeting h2 {
+        font-size: 18px;
+        font-weight: 700;
+        margin-top: 4px;
+      }
+
+      .search-container {
+        display: flex;
+        align-items: center;
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        padding: 6px 12px;
+        width: 140px;
+        transition: width 0.3s ease;
+      }
+
+      .search-container.active {
+        width: 200px;
+      }
+
+      .search-icon {
+        color: white;
+        margin-right: 8px;
+        font-size: 14px;
+      }
+
+      .search-input {
+        background: transparent;
+        border: none;
+        outline: none;
+        color: white;
+        font-size: 14px;
+        width: 100%;
+      }
+
+      .search-input::placeholder {
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .language-toggle {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        padding: 6px 12px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 100;
+      }
+
+      .language-toggle:hover {
+        background-color: rgba(255, 255, 255, 0.3);
+      }
+
+      .language-icon {
+        color: white;
+        margin-right: 6px;
+        font-size: 14px;
+      }
+
+      .language-text {
+        color: white;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      .balance-card {
+        background-color: #372f47;
+        margin: 0 20px;
+        padding: 20px;
+        border-radius: 16px;
+        color: white;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        margin-top: 20px;
+      }
+
+      .change-indicator {
+        display: flex;
+        align-items: center;
+        font-size: 12px;
+        color: #4cd964;
+        margin-bottom: 10px;
+      }
+
+      .balance-amount {
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+      }
+
+      .coin-stack {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: -60px;
+        margin-right: 10px;
+      }
+
+      .coin {
+        width: 50px;
+        height: 50px;
+        background-color: #ffd700;
+        border-radius: 50%;
+        border: 3px solid #e6c200;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        color: #a67c00;
+        font-weight: bold;
+        position: relative;
+      }
+
+      .action-buttons {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+        margin-top: 20px;
+      }
+
+      .action-button {
+        background-color: rgba(255, 255, 255, 0.15);
+        border-radius: 12px;
+        width: 30%;
+        padding: 15px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .action-button::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(255, 255, 255, 0.1);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .action-button:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      }
+
+      .action-button:hover::before {
+        opacity: 1;
+      }
+
+      .action-button:active {
+        transform: translateY(0);
+      }
+
+      .action-icon {
+        width: 50px;
+        height: 50px;
+        background-color: rgba(255, 255, 255, 0.15);
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 8px;
+        font-size: 24px;
+        transition: transform 0.3s ease;
+      }
+
+      .action-button:hover .action-icon {
+        transform: scale(1.1);
+      }
+
+      .receive .action-icon {
+        background-color: rgba(236, 64, 122, 0.3);
+        color: #ec407a;
+      }
+
+      .send .action-icon {
+        background-color: rgba(66, 165, 245, 0.3);
+        color: #42a5f5;
+      }
+
+      .swap .action-icon {
+        background-color: rgba(255, 193, 7, 0.3);
+        color: #ffc107;
+      }
+
+      .action-label {
+        font-size: 12px;
+        font-weight: 500;
+        margin-top: 4px;
+        transition: color 0.3s ease;
+      }
+
+      .action-button:hover .action-label {
+        color: #e0c3ff;
+      }
+
+      .arrow {
+        font-size: 16px;
+        margin-left: 5px;
+        transition: transform 0.3s ease;
+      }
+
+      .action-button:hover .arrow {
+        transform: translateX(3px);
+      }
+
+      .top-movers {
+        margin: 20px;
+      }
+
+      .section-title {
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 15px;
+      }
+
+      .movers-list {
+        display: flex;
+        overflow-x: auto;
+        padding-bottom: 10px;
+        scrollbar-width: none;
+      }
+
+      .movers-list::-webkit-scrollbar {
+        display: none;
+      }
+
+      .mover-item {
+        background-color: #372f47;
+        border-radius: 12px;
+        padding: 15px;
+        margin-right: 15px;
+        min-width: 160px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .mover-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      }
+
+      .mover-change {
+        color: #4cd964;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+
+      .mover-name {
+        font-size: 12px;
+        color: #d1c4e9;
+        margin-bottom: 10px;
+      }
+
+      .mover-price {
+        font-size: 14px;
+        color: white;
+        font-weight: 600;
+      }
+
+      .chart {
+        height: 30px;
+        width: 100%;
+        display: flex;
+        align-items: flex-end;
+        margin-top: 10px;
+      }
+
+      .chart-line {
+        background: linear-gradient(to right, #4cd964, #5e35b1);
+        height: 2px;
+        width: 100%;
+        position: relative;
+      }
+
+      .chart-line::after {
+        content: "";
+        position: absolute;
+        top: -2px;
+        right: 0;
+        width: 6px;
+        height: 6px;
+        background-color: #5e35b1;
+        border-radius: 50%;
+      }
+
+      .negative .mover-change {
+        color: #ff3b30;
+      }
+
+      .negative .chart-line {
+        background: linear-gradient(to right, #ff3b30, #5e35b1);
+      }
+
+      .bottom-nav {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: space-around;
+        padding: 15px;
+        background-color: #2e2639;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+      }
+
+      .nav-item {
+        width: 20%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: #a097b3;
+        font-size: 20px;
+        cursor: pointer;
+        transition: color 0.3s ease, transform 0.3s ease;
+      }
+
+      .nav-item:hover {
+        color: white;
+        transform: translateY(-3px);
+      }
+
+      .nav-item.active {
+        color: white;
+      }
+
+      .center-button {
+        width: 60px;
+        height: 60px;
+        background-color: #5e35b1;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: -40px;
+        color: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .center-button:hover {
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+        background-color: #6d44cc;
+      }
+
+      .search-results {
+        position: absolute;
+        top: 80px;
+        right: 20px;
+        width: 250px;
+        background-color: #372f47;
+        border-radius: 12px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        padding: 10px;
+        z-index: 10;
+        display: none;
+        max-height: 300px;
+        overflow-y: auto;
+      }
+
+      .search-result-item {
+        padding: 10px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+
+      .search-result-item:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      .search-result-item:last-child {
+        border-bottom: none;
+      }
+
+      .result-name {
+        font-size: 14px;
+        color: white;
+        font-weight: 500;
+      }
+
+      .result-details {
+        font-size: 12px;
+        color: #d1c4e9;
+        margin-top: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-container">
+      <div class="header">
+        <div class="greeting">
+          <h1 data-translate="greeting">Hello Anna</h1>
+          <h2 data-translate="welcome">Welcome Back!</h2>
+        </div>
+        <div class="search-container">
+          <div class="search-icon">🔍</div>
+          <input
+            type="text"
+            class="search-input"
+            data-translate-placeholder="searchPlaceholder"
+            placeholder="Search funds..."
+            id="searchInput"
+          />
+        </div>
+      </div>
+
+      <div class="language-toggle" id="languageToggle">
+        <div class="language-icon">🌐</div>
+        <div class="language-text" data-translate="languageButton">English</div>
+      </div>
+
+      <div class="search-results" id="searchResults">
+        <!-- Search results will be populated by JavaScript -->
+      </div>
+
+      <div class="balance-card">
+        <div class="change-indicator">
+          <span data-translate="changeIndicator">↗ 2.70% Today</span>
+        </div>
+        <div class="balance-amount">
+          <span data-translate="balanceAmount">$12,670.90</span>
+        </div>
+        <div class="coin-stack">
+          <div class="coin">$</div>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <div class="action-button receive">
+          <div class="action-icon">📥</div>
+          <div class="action-label">
+            <span data-translate="depositButton">Deposit</span>
+            <span class="arrow">→</span>
+          </div>
+        </div>
+        <div class="action-button send">
+          <div class="action-icon">📤</div>
+          <div class="action-label">
+            <span data-translate="withdrawButton">Withdraw</span>
+            <span class="arrow">→</span>
+          </div>
+        </div>
+        <div class="action-button swap">
+          <div class="action-icon">🔄</div>
+          <div class="action-label">
+            <span data-translate="switchButton">Switch</span>
+            <span class="arrow">→</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="top-movers">
+        <div class="section-title" data-translate="topPerformers">
+          Top Performers
+        </div>
+        <div class="movers-list">
+          <div class="mover-item">
+            <div class="mover-change">+34.98%</div>
+            <div class="mover-name" data-translate="fund1">Vanguard Growth</div>
+            <div class="mover-price">$121.58</div>
+            <div class="chart">
+              <div class="chart-line"></div>
+            </div>
+          </div>
+          <div class="mover-item">
+            <div class="mover-change">+66.25%</div>
+            <div class="mover-name" data-translate="fund2">Fidelity Equity</div>
+            <div class="mover-price">$315.16</div>
+            <div class="chart">
+              <div class="chart-line"></div>
+            </div>
+          </div>
+          <div class="mover-item negative">
+            <div class="mover-change">-12.33%</div>
+            <div class="mover-name" data-translate="fund3">BlackRock Value</div>
+            <div class="mover-price">$87.42</div>
+            <div class="chart">
+              <div class="chart-line"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <div class="nav-item">🏠</div>
+        <div class="nav-item">💼</div>
+        <div class="center-button">🔄</div>
+        <div class="nav-item active">📊</div>
+        <div class="nav-item">⚙️</div>
+      </div>
+    </div>
+
+    <script>
+      // Sample mutual fund data for search functionality
+      const mutualFunds = [
+        {
+          name: "Vanguard Growth Fund",
+          hindiName: "वैनगार्ड ग्रोथ फंड",
+          category: "Growth",
+          hindiCategory: "ग्रोथ",
+          price: 121.58,
+          change: 34.98,
+        },
+        {
+          name: "Fidelity Equity Fund",
+          hindiName: "फिडेलिटी इक्विटी फंड",
+          category: "Equity",
+          hindiCategory: "इक्विटी",
+          price: 315.16,
+          change: 66.25,
+        },
+        {
+          name: "BlackRock Value Fund",
+          hindiName: "ब्लैकरॉक वैल्यू फंड",
+          category: "Value",
+          hindiCategory: "वैल्यू",
+          price: 87.42,
+          change: -12.33,
+        },
+        {
+          name: "T. Rowe Price Blue Chip",
+          hindiName: "टी. रोवे प्राइस ब्लू चिप",
+          category: "Large Cap",
+          hindiCategory: "लार्ज कैप",
+          price: 154.89,
+          change: 12.67,
+        },
+        {
+          name: "Invesco QQQ Trust",
+          hindiName: "इनवेस्को क्यूक्यूक्यू ट्रस्ट",
+          category: "Technology",
+          hindiCategory: "टेक्नोलॉजी",
+          price: 428.76,
+          change: 43.21,
+        },
+        {
+          name: "JPMorgan Emerging Markets",
+          hindiName: "जेपीमॉर्गन इमर्जिंग मार्केट्स",
+          category: "International",
+          hindiCategory: "अंतरराष्ट्रीय",
+          price: 65.23,
+          change: -5.43,
+        },
+        {
+          name: "American Funds Growth",
+          hindiName: "अमेरिकन फंड्स ग्रोथ",
+          category: "Growth",
+          hindiCategory: "ग्रोथ",
+          price: 98.45,
+          change: 28.76,
+        },
+        {
+          name: "Schwab S&P 500 Index",
+          hindiName: "श्वाब एसएंडपी 500 इंडेक्स",
+          category: "Index",
+          hindiCategory: "इंडेक्स",
+          price: 187.54,
+          change: 15.32,
+        },
+        {
+          name: "iShares Russell 2000",
+          hindiName: "आईशेयर्स रसेल 2000",
+          category: "Small Cap",
+          hindiCategory: "स्मॉल कैप",
+          price: 76.98,
+          change: -8.21,
+        },
+        {
+          name: "PIMCO Total Return",
+          hindiName: "पिमको टोटल रिटर्न",
+          category: "Bond",
+          hindiCategory: "बॉन्ड",
+          price: 42.35,
+          change: 3.87,
+        },
+      ];
+
+      // Translation object
+      const translations = {
+        english: {
+          greeting: "Hello Anna",
+          welcome: "Welcome Back!",
+          searchPlaceholder: "Search funds...",
+          changeIndicator: "↗ 2.70% Today",
+          balanceAmount: "$12,670.90",
+          depositButton: "Deposit",
+          withdrawButton: "Withdraw",
+          switchButton: "Switch",
+          topPerformers: "Top Performers",
+          fund1: "Vanguard Growth",
+          fund2: "Fidelity Equity",
+          fund3: "BlackRock Value",
+          languageButton: "English",
+          noResults: "No results found",
+        },
+        hindi: {
+          greeting: "नमस्ते अन्ना",
+          welcome: "वापसी पर स्वागत है!",
+          searchPlaceholder: "फंड खोजें...",
+          changeIndicator: "↗ 2.70% आज",
+          balanceAmount: "₹12,670.90",
+          depositButton: "जमा करें",
+          withdrawButton: "निकासी",
+          switchButton: "बदलें",
+          topPerformers: "शीर्ष प्रदर्शनकर्ता",
+          fund1: "वैनगार्ड ग्रोथ",
+          fund2: "फिडेलिटी इक्विटी",
+          fund3: "ब्लैकरॉक वैल्यू",
+          languageButton: "हिंदी",
+          noResults: "कोई परिणाम नहीं मिला",
+        },
+      };
+
+      document.addEventListener("DOMContentLoaded", function () {
+        // Set up variables
+        let currentLanguage = "english";
+        const languageToggle = document.getElementById("languageToggle");
+        const searchInput = document.getElementById("searchInput");
+        const searchContainer = document.querySelector(".search-container");
+        const searchResults = document.getElementById("searchResults");
+
+        // Language toggle functionality
+        languageToggle.addEventListener("click", function () {
+          currentLanguage = currentLanguage === "english" ? "hindi" : "english";
+          translateApp(currentLanguage);
+        });
+
+        // Function to translate the app
+        function translateApp(language) {
+          // Translate all elements with data-translate attribute
+          document.querySelectorAll("[data-translate]").forEach((element) => {
+            const key = element.getAttribute("data-translate");
+            if (translations[language][key]) {
+              element.textContent = translations[language][key];
+            }
+          });
+
+          // Translate input placeholders
+          document
+            .querySelectorAll("[data-translate-placeholder]")
+            .forEach((element) => {
+              const key = element.getAttribute("data-translate-placeholder");
+              if (translations[language][key]) {
+                element.placeholder = translations[language][key];
+              }
+            });
+
+          // Update search results if they're visible
+          if (searchResults.style.display === "block") {
+            performSearch(searchInput.value);
+          }
+        }
+
+        // Action buttons hover effect and click event
+        const actionButtons = document.querySelectorAll(".action-button");
+
+        actionButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            let action =
+              this.querySelector("[data-translate]").getAttribute(
+                "data-translate"
+              );
+            let actionName = translations[currentLanguage][action];
+            alert(`${actionName} action clicked!`);
+          });
+        });
+
+        // Navigation items hover and click effect
+        const navItems = document.querySelectorAll(".nav-item");
+        navItems.forEach((item) => {
+          item.addEventListener("click", function () {
+            navItems.forEach((nav) => nav.classList.remove("active"));
+            this.classList.add("active");
+          });
+        });
+
+        // Center button hover and click effect
+        const centerButton = document.querySelector(".center-button");
+        centerButton.addEventListener("click", function () {
+          alert(
+            currentLanguage === "english"
+              ? "Quick actions menu"
+              : "त्वरित क्रिया मेनू"
+          );
+        });
+
+        // Search functionality
+        // Focus effect on search input
+        searchInput.addEventListener("focus", function () {
+          searchContainer.classList.add("active");
+        });
+
+        searchInput.addEventListener("blur", function () {
+          searchContainer.classList.remove("active");
+          // Short delay before hiding results to allow clicking on them
+          setTimeout(() => {
+            searchResults.style.display = "none";
+          }, 200);
+        });
+
+        // Search input keyup event for filtering results
+        searchInput.addEventListener("keyup", function () {
+          performSearch(this.value);
+        });
+
+        // Function to perform search based on current language
+        function performSearch(query) {
+          query = query.toLowerCase().trim();
+
+          if (query.length < 2) {
+            searchResults.style.display = "none";
+            return;
+          }
+
+          // Filter mutual funds based on search query and current language
+          const filteredFunds = mutualFunds.filter((fund) => {
+            if (currentLanguage === "english") {
+              return (
+                fund.name.toLowerCase().includes(query) ||
+                fund.category.toLowerCase().includes(query)
+              );
+            } else {
+              return (
+                fund.hindiName.toLowerCase().includes(query) ||
+                fund.hindiCategory.toLowerCase().includes(query)
+              );
+            }
+          });
+
+          // Display results
+          if (filteredFunds.length > 0) {
+            searchResults.innerHTML = "";
+            filteredFunds.forEach((fund) => {
+              const resultItem = document.createElement("div");
+              resultItem.className = "search-result-item";
+
+              if (currentLanguage === "english") {
+                resultItem.innerHTML = `
+                                <div class="result-name">${fund.name}</div>
+                                <div class="result-details">${
+                                  fund.category
+                                } • $${fund.price} • ${
+                  fund.change > 0 ? "+" : ""
+                }${fund.change}%</div>
+                            `;
+              } else {
+                resultItem.innerHTML = `
+                                <div class="result-name">${fund.hindiName}</div>
+                                <div class="result-details">${
+                                  fund.hindiCategory
+                                } • ₹${fund.price} • ${
+                  fund.change > 0 ? "+" : ""
+                }${fund.change}%</div>
+                            `;
+              }
+
+              resultItem.addEventListener("click", function () {
+                const fundName =
+                  currentLanguage === "english" ? fund.name : fund.hindiName;
+                alert(
+                  currentLanguage === "english"
+                    ? `Selected: ${fundName}`
+                    : `चयनित: ${fundName}`
+                );
+              });
+
+              searchResults.appendChild(resultItem);
+            });
+            searchResults.style.display = "block";
+          } else {
+            searchResults.innerHTML = `<div class="search-result-item"><div class="result-name">${translations[currentLanguage].noResults}</div></div>`;
+            searchResults.style.display = "block";
+          }
+        }
+
+        // Mover items hover and click effect
+        const moverItems = document.querySelectorAll(".mover-item");
+        moverItems.forEach((item, index) => {
+          item.addEventListener("click", function () {
+            const fundKey = `fund${index + 1}`;
+            const fundName = translations[currentLanguage][fundKey];
+            alert(
+              currentLanguage === "english"
+                ? `Selected fund: ${fundName}`
+                : `चयनित फंड: ${fundName}`
+            );
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

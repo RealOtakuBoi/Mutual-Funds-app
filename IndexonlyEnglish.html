@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NIVESH - INVESTING MADE EASY</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: #f8f8f8;
+        color: #333;
+      }
+
+      .app-container {
+        max-width: 360px;
+        margin: 0 auto;
+        background: linear-gradient(145deg, #6a3093, #a044ff);
+        min-height: 100vh;
+        overflow: hidden;
+        position: relative;
+        border-radius: 0;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .header {
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .greeting {
+        color: #f5f5f5;
+      }
+
+      .greeting h1 {
+        font-size: 14px;
+        font-weight: 500;
+        color: #e0c3ff;
+      }
+
+      .greeting h2 {
+        font-size: 18px;
+        font-weight: 700;
+        margin-top: 4px;
+      }
+
+      .search-container {
+        display: flex;
+        align-items: center;
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        padding: 6px 12px;
+        width: 140px;
+        transition: width 0.3s ease;
+      }
+
+      .search-container.active {
+        width: 200px;
+      }
+
+      .search-icon {
+        color: white;
+        margin-right: 8px;
+        font-size: 14px;
+      }
+
+      .search-input {
+        background: transparent;
+        border: none;
+        outline: none;
+        color: white;
+        font-size: 14px;
+        width: 100%;
+      }
+
+      .search-input::placeholder {
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .balance-card {
+        background-color: #372f47;
+        margin: 0 20px;
+        padding: 20px;
+        border-radius: 16px;
+        color: white;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .change-indicator {
+        display: flex;
+        align-items: center;
+        font-size: 12px;
+        color: #4cd964;
+        margin-bottom: 10px;
+      }
+
+      .balance-amount {
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+      }
+
+      .coin-stack {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: -60px;
+        margin-right: 10px;
+      }
+
+      .coin {
+        width: 50px;
+        height: 50px;
+        background-color: #ffd700;
+        border-radius: 50%;
+        border: 3px solid #e6c200;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        color: #a67c00;
+        font-weight: bold;
+        position: relative;
+      }
+
+      .action-buttons {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+        margin-top: 20px;
+      }
+
+      .action-button {
+        background-color: rgba(255, 255, 255, 0.15);
+        border-radius: 12px;
+        width: 30%;
+        padding: 15px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .action-button::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(255, 255, 255, 0.1);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .action-button:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      }
+
+      .action-button:hover::before {
+        opacity: 1;
+      }
+
+      .action-button:active {
+        transform: translateY(0);
+      }
+
+      .action-icon {
+        width: 50px;
+        height: 50px;
+        background-color: rgba(255, 255, 255, 0.15);
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 8px;
+        font-size: 24px;
+        transition: transform 0.3s ease;
+      }
+
+      .action-button:hover .action-icon {
+        transform: scale(1.1);
+      }
+
+      .receive .action-icon {
+        background-color: rgba(236, 64, 122, 0.3);
+        color: #ec407a;
+      }
+
+      .send .action-icon {
+        background-color: rgba(66, 165, 245, 0.3);
+        color: #42a5f5;
+      }
+
+      .swap .action-icon {
+        background-color: rgba(255, 193, 7, 0.3);
+        color: #ffc107;
+      }
+
+      .action-label {
+        font-size: 12px;
+        font-weight: 500;
+        margin-top: 4px;
+        transition: color 0.3s ease;
+      }
+
+      .action-button:hover .action-label {
+        color: #e0c3ff;
+      }
+
+      .arrow {
+        font-size: 16px;
+        margin-left: 5px;
+        transition: transform 0.3s ease;
+      }
+
+      .action-button:hover .arrow {
+        transform: translateX(3px);
+      }
+
+      .top-movers {
+        margin: 20px;
+      }
+
+      .section-title {
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 15px;
+      }
+
+      .movers-list {
+        display: flex;
+        overflow-x: auto;
+        padding-bottom: 10px;
+        scrollbar-width: none;
+      }
+
+      .movers-list::-webkit-scrollbar {
+        display: none;
+      }
+
+      .mover-item {
+        background-color: #372f47;
+        border-radius: 12px;
+        padding: 15px;
+        margin-right: 15px;
+        min-width: 160px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .mover-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      }
+
+      .mover-change {
+        color: #4cd964;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+
+      .mover-name {
+        font-size: 12px;
+        color: #d1c4e9;
+        margin-bottom: 10px;
+      }
+
+      .mover-price {
+        font-size: 14px;
+        color: white;
+        font-weight: 600;
+      }
+
+      .chart {
+        height: 30px;
+        width: 100%;
+        display: flex;
+        align-items: flex-end;
+        margin-top: 10px;
+      }
+
+      .chart-line {
+        background: linear-gradient(to right, #4cd964, #5e35b1);
+        height: 2px;
+        width: 100%;
+        position: relative;
+      }
+
+      .chart-line::after {
+        content: "";
+        position: absolute;
+        top: -2px;
+        right: 0;
+        width: 6px;
+        height: 6px;
+        background-color: #5e35b1;
+        border-radius: 50%;
+      }
+
+      .negative .mover-change {
+        color: #ff3b30;
+      }
+
+      .negative .chart-line {
+        background: linear-gradient(to right, #ff3b30, #5e35b1);
+      }
+
+      .bottom-nav {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: space-around;
+        padding: 15px;
+        background-color: #2e2639;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+      }
+
+      .nav-item {
+        width: 20%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: #a097b3;
+        font-size: 20px;
+        cursor: pointer;
+        transition: color 0.3s ease, transform 0.3s ease;
+      }
+
+      .nav-item:hover {
+        color: white;
+        transform: translateY(-3px);
+      }
+
+      .nav-item.active {
+        color: white;
+      }
+
+      .center-button {
+        width: 60px;
+        height: 60px;
+        background-color: #5e35b1;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: -40px;
+        color: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .center-button:hover {
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+        background-color: #6d44cc;
+      }
+
+      .search-results {
+        position: absolute;
+        top: 80px;
+        right: 20px;
+        width: 250px;
+        background-color: #372f47;
+        border-radius: 12px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        padding: 10px;
+        z-index: 10;
+        display: none;
+        max-height: 300px;
+        overflow-y: auto;
+      }
+
+      .search-result-item {
+        padding: 10px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+
+      .search-result-item:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      .search-result-item:last-child {
+        border-bottom: none;
+      }
+
+      .result-name {
+        font-size: 14px;
+        color: white;
+        font-weight: 500;
+      }
+
+      .result-details {
+        font-size: 12px;
+        color: #d1c4e9;
+        margin-top: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-container">
+      <div class="header">
+        <div class="greeting">
+          <h1>Hello Soham</h1>
+          <h2>Welcome Back!</h2>
+        </div>
+        <div class="search-container">
+          <div class="search-icon">🔍</div>
+          <input
+            type="text"
+            class="search-input"
+            placeholder="Search funds..."
+            id="searchInput"
+          />
+        </div>
+      </div>
+
+      <div class="search-results" id="searchResults">
+        <!-- Search results will be populated by JavaScript -->
+      </div>
+
+      <div class="balance-card">
+        <div class="change-indicator">
+          <span>↗ 2.70% Today</span>
+        </div>
+        <div class="balance-amount">
+          <span>$12,670.90</span>
+        </div>
+        <div class="coin-stack">
+          <div class="coin">$</div>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <div class="action-button receive">
+          <div class="action-icon">📥</div>
+          <div class="action-label">Deposit <span class="arrow">→</span></div>
+        </div>
+        <div class="action-button send">
+          <div class="action-icon">📤</div>
+          <div class="action-label">Withdraw <span class="arrow">→</span></div>
+        </div>
+        <div class="action-button swap">
+          <div class="action-icon">🔄</div>
+          <div class="action-label">Switch <span class="arrow">→</span></div>
+        </div>
+      </div>
+
+      <div class="top-movers">
+        <div class="section-title">Top Performers</div>
+        <div class="movers-list">
+          <div class="mover-item">
+            <div class="mover-change">+34.98%</div>
+            <div class="mover-name">Vanguard Growth</div>
+            <div class="mover-price">$121.58</div>
+            <div class="chart">
+              <div class="chart-line"></div>
+            </div>
+          </div>
+          <div class="mover-item">
+            <div class="mover-change">+66.25%</div>
+            <div class="mover-name">Fidelity Equity</div>
+            <div class="mover-price">$315.16</div>
+            <div class="chart">
+              <div class="chart-line"></div>
+            </div>
+          </div>
+          <div class="mover-item negative">
+            <div class="mover-change">-12.33%</div>
+            <div class="mover-name">BlackRock Value</div>
+            <div class="mover-price">$87.42</div>
+            <div class="chart">
+              <div class="chart-line"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-nav">
+        <div class="nav-item">🏠</div>
+        <div class="nav-item">💼</div>
+        <div class="center-button">🔄</div>
+        <div class="nav-item active">📊</div>
+        <div class="nav-item">⚙️</div>
+      </div>
+    </div>
+
+    <script>
+      // Sample mutual fund data for search functionality
+      const mutualFunds = [
+        {
+          name: "Vanguard Growth Fund",
+          category: "Growth",
+          price: 121.58,
+          change: 34.98,
+        },
+        {
+          name: "Fidelity Equity Fund",
+          category: "Equity",
+          price: 315.16,
+          change: 66.25,
+        },
+        {
+          name: "BlackRock Value Fund",
+          category: "Value",
+          price: 87.42,
+          change: -12.33,
+        },
+        {
+          name: "T. Rowe Price Blue Chip",
+          category: "Large Cap",
+          price: 154.89,
+          change: 12.67,
+        },
+        {
+          name: "Invesco QQQ Trust",
+          category: "Technology",
+          price: 428.76,
+          change: 43.21,
+        },
+        {
+          name: "JPMorgan Emerging Markets",
+          category: "International",
+          price: 65.23,
+          change: -5.43,
+        },
+        {
+          name: "American Funds Growth",
+          category: "Growth",
+          price: 98.45,
+          change: 28.76,
+        },
+        {
+          name: "Schwab S&P 500 Index",
+          category: "Index",
+          price: 187.54,
+          change: 15.32,
+        },
+        {
+          name: "iShares Russell 2000",
+          category: "Small Cap",
+          price: 76.98,
+          change: -8.21,
+        },
+        {
+          name: "PIMCO Total Return",
+          category: "Bond",
+          price: 42.35,
+          change: 3.87,
+        },
+      ];
+
+      document.addEventListener("DOMContentLoaded", function () {
+        // Action buttons hover effect and click event
+        const actionButtons = document.querySelectorAll(".action-button");
+
+        actionButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            alert(
+              `${
+                this.querySelector(".action-label").innerText.split(" ")[0]
+              } action clicked!`
+            );
+          });
+        });
+
+        // Navigation items hover and click effect
+        const navItems = document.querySelectorAll(".nav-item");
+        navItems.forEach((item) => {
+          item.addEventListener("click", function () {
+            navItems.forEach((nav) => nav.classList.remove("active"));
+            this.classList.add("active");
+          });
+        });
+
+        // Center button hover and click effect
+        const centerButton = document.querySelector(".center-button");
+        centerButton.addEventListener("click", function () {
+          alert("Quick actions menu");
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById("searchInput");
+        const searchContainer = document.querySelector(".search-container");
+        const searchResults = document.getElementById("searchResults");
+
+        // Focus effect on search input
+        searchInput.addEventListener("focus", function () {
+          searchContainer.classList.add("active");
+        });
+
+        searchInput.addEventListener("blur", function () {
+          searchContainer.classList.remove("active");
+          // Short delay before hiding results to allow clicking on them
+          setTimeout(() => {
+            searchResults.style.display = "none";
+          }, 200);
+        });
+
+        // Search input keyup event for filtering results
+        searchInput.addEventListener("keyup", function () {
+          const query = this.value.toLowerCase().trim();
+
+          if (query.length < 2) {
+            searchResults.style.display = "none";
+            return;
+          }
+
+          // Filter mutual funds based on search query
+          const filteredFunds = mutualFunds.filter(
+            (fund) =>
+              fund.name.toLowerCase().includes(query) ||
+              fund.category.toLowerCase().includes(query)
+          );
+
+          // Display results
+          if (filteredFunds.length > 0) {
+            searchResults.innerHTML = "";
+            filteredFunds.forEach((fund) => {
+              const resultItem = document.createElement("div");
+              resultItem.className = "search-result-item";
+              resultItem.innerHTML = `
+                            <div class="result-name">${fund.name}</div>
+                            <div class="result-details">${fund.category} • $${
+                fund.price
+              } • ${fund.change > 0 ? "+" : ""}${fund.change}%</div>
+                        `;
+              resultItem.addEventListener("click", function () {
+                alert(`Selected: ${fund.name}`);
+              });
+              searchResults.appendChild(resultItem);
+            });
+            searchResults.style.display = "block";
+          } else {
+            searchResults.innerHTML =
+              '<div class="search-result-item"><div class="result-name">No results found</div></div>';
+            searchResults.style.display = "block";
+          }
+        });
+
+        // Mover items hover and click effect
+        const moverItems = document.querySelectorAll(".mover-item");
+        moverItems.forEach((item) => {
+          item.addEventListener("click", function () {
+            const fundName = this.querySelector(".mover-name").innerText;
+            alert(`Selected fund: ${fundName}`);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
