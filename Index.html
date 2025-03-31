@@ -487,7 +487,7 @@
           <span data-translate="balanceAmount">₹12,670.90</span>
         </div>
         <div class="coin-stack">
-          <div class="coin">$</div>
+          <div class="coin">₹</div>
         </div>
       </div>
 
@@ -522,24 +522,30 @@
         <div class="movers-list">
           <div class="mover-item">
             <div class="mover-change">+34.98%</div>
-            <div class="mover-name" data-translate="fund1">Vanguard Growth</div>
-            <div class="mover-price">$121.58</div>
+            <div class="mover-name" data-translate="fund1">
+              HDFC Midcap Opportunities
+            </div>
+            <div class="mover-price">₹121.58</div>
             <div class="chart">
               <div class="chart-line"></div>
             </div>
           </div>
           <div class="mover-item">
             <div class="mover-change">+66.25%</div>
-            <div class="mover-name" data-translate="fund2">Fidelity Equity</div>
-            <div class="mover-price">$315.16</div>
+            <div class="mover-name" data-translate="fund2">
+              SBI Blue Chip Fund
+            </div>
+            <div class="mover-price">₹315.16</div>
             <div class="chart">
               <div class="chart-line"></div>
             </div>
           </div>
           <div class="mover-item negative">
             <div class="mover-change">-12.33%</div>
-            <div class="mover-name" data-translate="fund3">BlackRock Value</div>
-            <div class="mover-price">$87.42</div>
+            <div class="mover-name" data-translate="fund3">
+              Axis Long Term Equity
+            </div>
+            <div class="mover-price">₹87.42</div>
             <div class="chart">
               <div class="chart-line"></div>
             </div>
@@ -560,82 +566,82 @@
       // Sample mutual fund data for search functionality
       const mutualFunds = [
         {
-          name: "Vanguard Growth Fund",
-          hindiName: "वैनगार्ड ग्रोथ फंड",
-          category: "Growth",
-          hindiCategory: "ग्रोथ",
+          name: "HDFC Midcap Opportunities Fund",
+          hindiName: "एचडीएफसी मिडकैप अपॉर्चुनिटीज फंड",
+          category: "Midcap",
+          hindiCategory: "मिडकैप",
           price: 121.58,
           change: 34.98,
         },
         {
-          name: "Fidelity Equity Fund",
-          hindiName: "फिडेलिटी इक्विटी फंड",
-          category: "Equity",
-          hindiCategory: "इक्विटी",
+          name: "SBI Blue Chip Fund",
+          hindiName: "एसबीआई ब्लू चिप फंड",
+          category: "Large Cap",
+          hindiCategory: "लार्ज कैप",
           price: 315.16,
           change: 66.25,
         },
         {
-          name: "BlackRock Value Fund",
-          hindiName: "ब्लैकरॉक वैल्यू फंड",
-          category: "Value",
-          hindiCategory: "वैल्यू",
+          name: "Axis Long Term Equity Fund",
+          hindiName: "एक्सिस लॉन्ग टर्म इक्विटी फंड",
+          category: "ELSS",
+          hindiCategory: "ईएलएसएस",
           price: 87.42,
           change: -12.33,
         },
         {
-          name: "T. Rowe Price Blue Chip",
-          hindiName: "टी. रोवे प्राइस ब्लू चिप",
-          category: "Large Cap",
-          hindiCategory: "लार्ज कैप",
+          name: "Mirae Asset Emerging Bluechip",
+          hindiName: "मिरेय एसेट इमर्जिंग ब्लूचिप",
+          category: "Multi Cap",
+          hindiCategory: "मल्टी कैप",
           price: 154.89,
           change: 12.67,
         },
         {
-          name: "Invesco QQQ Trust",
-          hindiName: "इनवेस्को क्यूक्यूक्यू ट्रस्ट",
-          category: "Technology",
-          hindiCategory: "टेक्नोलॉजी",
+          name: "Kotak Standard Multicap Fund",
+          hindiName: "कोटक स्टैंडर्ड मल्टीकैप फंड",
+          category: "Multi Cap",
+          hindiCategory: "मल्टी कैप",
           price: 428.76,
           change: 43.21,
         },
         {
-          name: "JPMorgan Emerging Markets",
-          hindiName: "जेपीमॉर्गन इमर्जिंग मार्केट्स",
-          category: "International",
-          hindiCategory: "अंतरराष्ट्रीय",
+          name: "ICICI Prudential Value Discovery",
+          hindiName: "आईसीआईसीआई प्रूडेंशियल वैल्यू डिस्कवरी",
+          category: "Value",
+          hindiCategory: "वैल्यू",
           price: 65.23,
           change: -5.43,
         },
         {
-          name: "American Funds Growth",
-          hindiName: "अमेरिकन फंड्स ग्रोथ",
-          category: "Growth",
-          hindiCategory: "ग्रोथ",
+          name: "Aditya Birla Sun Life Tax Relief 96",
+          hindiName: "आदित्य बिरला सन लाइफ टैक्स रिलीफ 96",
+          category: "ELSS",
+          hindiCategory: "ईएलएसएस",
           price: 98.45,
           change: 28.76,
         },
         {
-          name: "Schwab S&P 500 Index",
-          hindiName: "श्वाब एसएंडपी 500 इंडेक्स",
+          name: "UTI Nifty Index Fund",
+          hindiName: "यूटीआई निफ्टी इंडेक्स फंड",
           category: "Index",
           hindiCategory: "इंडेक्स",
           price: 187.54,
           change: 15.32,
         },
         {
-          name: "iShares Russell 2000",
-          hindiName: "आईशेयर्स रसेल 2000",
+          name: "DSP Small Cap Fund",
+          hindiName: "डीएसपी स्मॉल कैप फंड",
           category: "Small Cap",
           hindiCategory: "स्मॉल कैप",
           price: 76.98,
           change: -8.21,
         },
         {
-          name: "PIMCO Total Return",
-          hindiName: "पिमको टोटल रिटर्न",
-          category: "Bond",
-          hindiCategory: "बॉन्ड",
+          name: "Franklin India Liquid Fund",
+          hindiName: "फ्रैंकलिन इंडिया लिक्विड फंड",
+          category: "Liquid",
+          hindiCategory: "लिक्विड",
           price: 42.35,
           change: 3.87,
         },
@@ -648,14 +654,14 @@
           welcome: "Welcome Back!",
           searchPlaceholder: "Search funds...",
           changeIndicator: "↗ 2.70% Today",
-          balanceAmount: "$12,670.90",
+          balanceAmount: "₹12,670.90",
           depositButton: "Deposit",
           withdrawButton: "Withdraw",
           switchButton: "Switch",
           topPerformers: "Top Performers",
-          fund1: "Vanguard Growth",
-          fund2: "Fidelity Equity",
-          fund3: "BlackRock Value",
+          fund1: "HDFC Midcap Opportunities",
+          fund2: "SBI Blue Chip Fund",
+          fund3: "Axis Long Term Equity",
           languageButton: "English",
           noResults: "No results found",
         },
@@ -669,9 +675,9 @@
           withdrawButton: "निकासी",
           switchButton: "बदलें",
           topPerformers: "शीर्ष प्रदर्शनकर्ता",
-          fund1: "वैनगार्ड ग्रोथ",
-          fund2: "फिडेलिटी इक्विटी",
-          fund3: "ब्लैकरॉक वैल्यू",
+          fund1: "एचडीएफसी मिडकैप अपॉर्चुनिटीज",
+          fund2: "एसबीआई ब्लू चिप फंड",
+          fund3: "एक्सिस लॉन्ग टर्म इक्विटी",
           languageButton: "हिंदी",
           noResults: "कोई परिणाम नहीं मिला",
         },
@@ -805,7 +811,7 @@
                                 <div class="result-name">${fund.name}</div>
                                 <div class="result-details">${
                                   fund.category
-                                } • $${fund.price} • ${
+                                } • ₹${fund.price} • ${
                   fund.change > 0 ? "+" : ""
                 }${fund.change}%</div>
                             `;
