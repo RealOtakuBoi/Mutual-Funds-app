@@ -28,8 +28,36 @@
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
       }
 
+      .language-toggle {
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        padding: 6px 12px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin: 20px 0 10px 20px;
+        width: fit-content;
+      }
+
+      .language-toggle:hover {
+        background-color: rgba(255, 255, 255, 0.3);
+      }
+
+      .language-icon {
+        color: white;
+        margin-right: 6px;
+        font-size: 14px;
+      }
+
+      .language-text {
+        color: white;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
       .header {
-        padding: 20px;
+        padding: 0 20px 20px 20px;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -82,36 +110,6 @@
 
       .search-input::placeholder {
         color: rgba(255, 255, 255, 0.7);
-      }
-
-      .language-toggle {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        background-color: rgba(255, 255, 255, 0.2);
-        border-radius: 20px;
-        padding: 6px 12px;
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        z-index: 100;
-      }
-
-      .language-toggle:hover {
-        background-color: rgba(255, 255, 255, 0.3);
-      }
-
-      .language-icon {
-        color: white;
-        margin-right: 6px;
-        font-size: 14px;
-      }
-
-      .language-text {
-        color: white;
-        font-size: 12px;
-        font-weight: 500;
       }
 
       .balance-card {
@@ -454,6 +452,12 @@
   </head>
   <body>
     <div class="app-container">
+      <!-- Moved language toggle to appear first, before the header -->
+      <div class="language-toggle" id="languageToggle">
+        <div class="language-icon">🌐</div>
+        <div class="language-text" data-translate="languageButton">English</div>
+      </div>
+
       <div class="header">
         <div class="greeting">
           <h1 data-translate="greeting">Hello Anna</h1>
@@ -469,11 +473,6 @@
             id="searchInput"
           />
         </div>
-      </div>
-
-      <div class="language-toggle" id="languageToggle">
-        <div class="language-icon">🌐</div>
-        <div class="language-text" data-translate="languageButton">English</div>
       </div>
 
       <div class="search-results" id="searchResults">
